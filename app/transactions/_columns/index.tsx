@@ -7,29 +7,14 @@ import TransactionTypeBadge from "../_components/type-badge"
 import { PenIcon, TrashIcon } from "lucide-react"
 import { Button } from "@/app/_components/ui/button"
 
-export const TRANSACTION_CATEGORY_LABELS = {
-  EDUCATION: "Educação",
-  ENTERTAINMENT: "Entretenimento",
-  FOOD: "Comida",
-  HEALTH: "Saúde",
-  HOUSING: "Moradia",
-  OTHER: "Outros",
-  SALARY: "Salário",
-  TRANSPORTATION: "Transporte",
-  UTILITY: "Utilidades",
-}
+import {
+  TRANSACTION_CATEGORY_LABELS,
+  TRANSACTION_PAYMENT_METHOD_LABELS,
+} from "@/app/_constants/transactions"
 
-export const TRANSACTIONS_PAYMENT_METHOD_LABELS = {
-  BANK_TRANSFER: "Transferência Bancária",
-  BAND_SLIP: "Boleto Bancário",
-  CASH: "Dinheiro",
-  CREDIT_CARD: "Cartão de Crédito",
-  DEBIT_CARD: "Cartão de Débito",
-  OTHER: "Outros",
-  PIX: "Pix",
-}
+export type TransactionRow = Omit<Transaction, "amount"> & { amount: number }
 
-export const transactionColumns: ColumnDef<Transaction>[] = [
+export const transactionColumns: ColumnDef<TransactionRow>[] = [
   {
     accessorKey: "name",
     header: "Nome",
@@ -54,7 +39,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
     accessorKey: "paymentMethod",
     header: "Método de Pagamento",
     cell: ({ row: { original: transaction } }) =>
-      TRANSACTIONS_PAYMENT_METHOD_LABELS[transaction.paymentMethod],
+      TRANSACTION_PAYMENT_METHOD_LABELS[transaction.paymentMethod],
   },
 
   {
