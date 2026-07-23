@@ -37,14 +37,20 @@ import {
   TRANSACTION_TYPE_OPTIONS,
 } from "../_constants/transactions"
 import { DatePicker } from "./ui/date-picker"
+import { addTransaction } from "../actions/add-transaction"
+import { useState } from "react"
 
 const formSchema = z.object({
   name: z.string().trim().min(1, {
     message: "O nome é obrigatório.",
   }),
-  amount: z.string().trim().min(1, {
-    message: "O nome é obrigatório.",
-  }),
+  amount: z
+    .number({
+      error: "O valor é obrigatório",
+    })
+    .positive({
+      message: "O valor deve ser positivo",
+    }),
   type: z.nativeEnum(TransactionType, {
     error: "O tipo é obrigatório.",
   }),
@@ -62,6 +68,8 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>
 
 const AddTransactionButton = () => {
+  const [dialogIsOpen, setDialogIsOpen] = useState(false)
+
   const {
     register,
     control,
@@ -71,7 +79,6 @@ const AddTransactionButton = () => {
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      amount: "",
       category: TransactionCategory.OTHER,
       date: undefined,
       name: "",
@@ -80,12 +87,26 @@ const AddTransactionButton = () => {
     },
   })
 
-  const onSubmit = (data: FormSchema) => {
-    console.log(data)
+  const onSubmit = async (data: FormSchema) => {
+    try {
+      await addTransaction(data)
+      setDialogIsOpen(false)
+      reset()
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
-    <Dialog onOpenChange={(open) => !open && reset()}>
+    <Dialog
+      open={dialogIsOpen}
+      onOpenChange={(open) => {
+        setDialogIsOpen(open)
+        if (!open) {
+          reset()
+        }
+      }}
+    >
       <DialogTrigger render={<Button className="rounded-full" />}>
         Adicionar transação
         <ArrowDownUpIcon />
@@ -117,8 +138,12 @@ const AddTransactionButton = () => {
                 render={({ field }) => (
                   <MoneyInput
                     id="amount"
-                    value={field.value}
-                    onValueChange={field.onChange}
+                    placeholder="Digite o valor"
+                    onValueChange={({ floatValue }) =>
+                      field.onChange(floatValue)
+                    }
+                    onBlur={field.onBlur}
+                    disabled={field.disabled}
                   />
                 )}
               />

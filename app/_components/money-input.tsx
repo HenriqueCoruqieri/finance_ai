@@ -4,12 +4,9 @@ import { NumericFormat, type NumericFormatProps } from "react-number-format"
 
 import { Input } from "./ui/input"
 
-type MoneyInputProps = Omit<NumericFormatProps, "value" | "onValueChange"> & {
-  value?: string
-  onValueChange?: (value: string) => void
-}
+type MoneyInputProps = NumericFormatProps
 
-const MoneyInput = ({ onValueChange, ...props }: MoneyInputProps) => {
+const MoneyInput = (props: MoneyInputProps) => {
   return (
     <NumericFormat
       customInput={Input}
@@ -19,7 +16,7 @@ const MoneyInput = ({ onValueChange, ...props }: MoneyInputProps) => {
       fixedDecimalScale
       allowNegative={false}
       prefix="R$ "
-      onValueChange={(values) => onValueChange?.(values.value)}
+
       {...props}
     />
   )
