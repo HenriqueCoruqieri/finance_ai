@@ -35,7 +35,7 @@ import {
   TRANSACTION_TYPE_OPTIONS,
 } from "../_constants/transactions"
 import { DatePicker } from "./ui/date-picker"
-import { upsertTransaction } from "../actions/add-transaction"
+import { upsertTransaction } from "../actions/upsert-transaction"
 
 interface UpsertTransactionProps {
   isOpen: boolean

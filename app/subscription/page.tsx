@@ -1,9 +1,7 @@
+import Navbar from "../_components/navbard"
+
 const SubscriptionPage = () => {
-  return (
-    <div className="text-center font-bold">
-      <h1>Subscription Page</h1>
-    </div>
-  )
+  return <Navbar />
 }
 
 export default SubscriptionPage
