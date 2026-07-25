@@ -1,4 +1,4 @@
-import { shadcn } from "@clerk/ui/themes"
+import { dark } from "@clerk/ui/themes"
 import type { Metadata } from "next"
 import { ClerkProvider } from "@clerk/nextjs"
 import { Mulish } from "next/font/google"
@@ -25,7 +25,7 @@ export default function RootLayout({
         <ClerkProvider
           afterSignOutUrl="/login"
           appearance={{
-            theme: shadcn,
+            theme: dark,
           }}
         >
           {children}
