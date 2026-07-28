@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "./table"
+import { ScrollArea } from "./scroll-area"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -32,7 +33,7 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className="overflow-hidden rounded-md border">
+    <ScrollArea className="min-h-0 flex-1 rounded-md border">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -75,6 +76,6 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-    </div>
+    </ScrollArea>
   )
 }
