@@ -64,8 +64,8 @@ const TransactionsPieChart = ({
   ]
 
   return (
-    <Card className="P-12 flex flex-col">
-      <CardContent className="flex-1 pb-0">
+    <Card className="flex flex-col border p-6">
+      <CardContent className="flex-1">
         <ChartContainer config={chartConfig} className="mx-auto aspect-square">
           <PieChart>
             <ChartTooltip

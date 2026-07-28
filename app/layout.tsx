@@ -21,14 +21,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${mulish.className} dark h-full antialiased`}>
-      <body className="flex min-h-full flex-col">
+      <body className="flex h-full flex-col">
         <ClerkProvider
           afterSignOutUrl="/login"
           appearance={{
             theme: dark,
           }}
         >
-          {children}
+          <div className="flex h-full flex-col overflow-hidden">{children}</div>
         </ClerkProvider>
       </body>
     </html>
