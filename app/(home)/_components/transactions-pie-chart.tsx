@@ -64,9 +64,12 @@ const TransactionsPieChart = ({
   ]
 
   return (
-    <Card className="flex flex-col border p-6">
-      <CardContent className="flex-1">
-        <ChartContainer config={chartConfig} className="mx-auto aspect-square">
+    <Card className="flex h-full min-h-0 flex-col border p-4 xl:p-6">
+      <CardContent className="flex min-h-0 flex-1 flex-col gap-4 p-0">
+        <ChartContainer
+          config={chartConfig}
+          className="mx-auto aspect-auto min-h-0 w-full flex-1"
+        >
           <PieChart>
             <ChartTooltip
               cursor={false}
@@ -76,12 +79,12 @@ const TransactionsPieChart = ({
               data={chartData}
               dataKey="amount"
               nameKey="type"
-              innerRadius={60}
+              innerRadius="60%"
             />
           </PieChart>
         </ChartContainer>
 
-        <div className="space-y-3">
+        <div className="shrink-0 space-y-2 xl:space-y-3">
           <PercentageItem
             icon={<TrendingUpIcon size={16} className="text-primary" />}
             title="Receita"
