@@ -14,7 +14,7 @@ import { Pie, PieChart } from "recharts"
 import PercentageItem from "./percentage-item"
 
 const chartConfig = {
-  [TransactionType.INVESTIMENT]: {
+  [TransactionType.INVESTMENT]: {
     label: "Investido",
     color: "#FFFFFF",
   },
@@ -45,7 +45,7 @@ const TransactionsPieChart = ({
 }: TransactionsPieChartProps) => {
   const chartData = [
     {
-      type: TransactionType.INVESTIMENT,
+      type: TransactionType.INVESTMENT,
       amount: investmentsTotal,
       fill: "#FFFFFF",
     },
@@ -97,7 +97,7 @@ const TransactionsPieChart = ({
           <PercentageItem
             icon={<PiggyBank size={16} />}
             title="Investimento"
-            value={typesPercentage[TransactionType.INVESTIMENT]}
+            value={typesPercentage[TransactionType.INVESTMENT]}
           />
         </div>
       </CardContent>

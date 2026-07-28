@@ -33,7 +33,7 @@ export const getDashboard = async (month: string) => {
   const investmentsTotal = Number(
     (
       await db.transaction.aggregate({
-        where: { ...where, type: "INVESTIMENT" },
+        where: { ...where, type: "INVESTMENT" },
         _sum: { amount: true },
       })
     )?._sum?.amount,
@@ -62,7 +62,7 @@ export const getDashboard = async (month: string) => {
       (Number(depositsTotal || 0) / Number(transactionsTotal)) * 100,
     ),
 
-    [TransactionType.INVESTIMENT]: Math.round(
+    [TransactionType.INVESTMENT]: Math.round(
       (Number(investmentsTotal || 0) / Number(transactionsTotal)) * 100,
     ),
 
