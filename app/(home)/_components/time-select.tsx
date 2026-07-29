@@ -19,7 +19,7 @@ const MONTH_OPTIONS = [
   { value: "07", label: "Julho" },
   { value: "08", label: "Agosto" },
   { value: "09", label: "Setembro" },
-  { value: "010", label: "Outubro" },
+  { value: "10", label: "Outubro" },
   { value: "11", label: "Novembro" },
   { value: "12", label: "Dezembro" },
 ]
@@ -38,7 +38,7 @@ const TimeSelect = () => {
     <Select
       items={MONTH_OPTIONS}
       onValueChange={(value) => handleMonthChange(String(value))}
-      defaultValue={month ?? ""}
+      value={month ?? ""}
     >
       <SelectTrigger className="rounded-full">
         <SelectValue placeholder="mes" />
