@@ -6,6 +6,8 @@ import Navbar from "../_components/navbar"
 import { auth } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
 
+import { canUserAddTransaction } from "../_data/can-user-add-transaction"
+
 const TransactionsPage = async () => {
   const { userId } = await auth()
   if (!userId) {
@@ -26,13 +28,16 @@ const TransactionsPage = async () => {
     amount: transaction.amount.toNumber(),
   }))
 
+  const userCanAddTransactions = await canUserAddTransaction()
   return (
     <>
       <Navbar />
       <div className="flex min-h-0 flex-1 flex-col space-y-6 p-6">
         <div className="items center flex w-full justify-between">
           <h1 className="text-2xl font-bold">Transações</h1>
-          <AddTransactionButton />
+          <AddTransactionButton
+            userCanAddTransaction={userCanAddTransactions}
+          />
         </div>
         <DataTable columns={transactionColumns} data={rows} />
       </div>
