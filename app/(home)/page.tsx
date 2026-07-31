@@ -9,6 +9,7 @@ import { getDashboard } from "../_data/get-dashboard"
 import ExpensesPerCategory from "./_components/expenses-per-category"
 import LastTransactions from "./_components/last-transactions"
 import { canUserAddTransaction } from "../_data/can-user-add-transaction"
+import AiReportButton from "./_components/ai-report-button"
 
 interface HomeProps {
   searchParams: Promise<{
@@ -37,7 +38,10 @@ const Home = async ({ searchParams }: HomeProps) => {
       <div className="flex flex-col space-y-6 overflow-hidden p-6">
         <div className="flex justify-between">
           <h1 className="text-2xl font-bold">Dashboard</h1>
-          <TimeSelect />
+          <div className="flex items-center gap-3">
+            <AiReportButton month={month} />
+            <TimeSelect />
+          </div>
         </div>
 
         <div className="grid grid-cols-[2fr_1fr] grid-rows-1 gap-6 overflow-hidden">
