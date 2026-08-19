@@ -4,11 +4,11 @@ import { PencilIcon } from "lucide-react"
 import { useState } from "react"
 
 import { Button } from "@/app/_components/ui/button"
-import { Transaction } from "@/app/generated/prisma/client"
 import UpsertTransactionDialog from "@/app/_components/upsert-transaction-dialog"
+import type { TransactionRow } from "../_columns"
 
 interface EditTransactionButtonProps {
-  transaction: Transaction
+  transaction: TransactionRow
 }
 
 const EditTransactionButton = ({ transaction }: EditTransactionButtonProps) => {
