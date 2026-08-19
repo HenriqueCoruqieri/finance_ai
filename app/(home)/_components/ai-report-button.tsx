@@ -96,7 +96,7 @@ const AiReportButton = ({ month, hasPremiumPlan }: AiReportButtonProps) => {
             <DialogFooter>
               <DialogClose />
               <Button
-                render={<Link href="/subscripton">Assinar plano premium</Link>}
+                render={<Link href="/subscription">Assinar plano premium</Link>}
               ></Button>
             </DialogFooter>
           </>
