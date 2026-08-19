@@ -16,11 +16,17 @@ export const createStripeCheckout = async () => {
     apiVersion: "2026-06-24.dahlia",
   })
 
+  const appUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : process.env.APP_URL
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "subscription",
-    success_url: process.env.APP_URL,
-    cancel_url: process.env.APP_URL,
+    success_url: appUrl,
+    cancel_url: appUrl,
     subscription_data: {
       metadata: {
         clerk_user_id: userId,
