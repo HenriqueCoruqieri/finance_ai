@@ -7,6 +7,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/app/_components/ui/chart"
+import { ScrollArea } from "@/app/_components/ui/scroll-area"
 import { TransactionPercentagePerType } from "@/app/_data/get-dashboard/types"
 import { TransactionType } from "@/app/generated/prisma/enums"
 import { PiggyBank, TrendingDownIcon, TrendingUpIcon } from "lucide-react"
@@ -68,7 +69,7 @@ const TransactionsPieChart = ({
       <CardContent className="flex min-h-0 flex-1 flex-col gap-4 p-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-auto min-h-0 w-full flex-1"
+          className="mx-auto hidden aspect-auto min-h-0 w-full flex-1 xl:flex"
         >
           <PieChart>
             <ChartTooltip
@@ -84,25 +85,27 @@ const TransactionsPieChart = ({
           </PieChart>
         </ChartContainer>
 
-        <div className="shrink-0 space-y-2 xl:space-y-3">
-          <PercentageItem
-            icon={<TrendingUpIcon size={16} className="text-primary" />}
-            title="Receita"
-            value={typesPercentage[TransactionType.DEPOSIT]}
-          />
+        <ScrollArea className="min-h-0 flex-1 xl:flex-none xl:shrink-0">
+          <div className="space-y-2 xl:space-y-3">
+            <PercentageItem
+              icon={<TrendingUpIcon size={16} className="text-primary" />}
+              title="Receita"
+              value={typesPercentage[TransactionType.DEPOSIT]}
+            />
 
-          <PercentageItem
-            icon={<TrendingDownIcon size={16} className="text-danger" />}
-            title="Despesas"
-            value={typesPercentage[TransactionType.EXPENSE]}
-          />
+            <PercentageItem
+              icon={<TrendingDownIcon size={16} className="text-danger" />}
+              title="Despesas"
+              value={typesPercentage[TransactionType.EXPENSE]}
+            />
 
-          <PercentageItem
-            icon={<PiggyBank size={16} />}
-            title="Investimento"
-            value={typesPercentage[TransactionType.INVESTMENT]}
-          />
-        </div>
+            <PercentageItem
+              icon={<PiggyBank size={16} />}
+              title="Investimento"
+              value={typesPercentage[TransactionType.INVESTMENT]}
+            />
+          </div>
+        </ScrollArea>
       </CardContent>
     </Card>
   )
