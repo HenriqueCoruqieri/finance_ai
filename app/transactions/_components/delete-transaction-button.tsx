@@ -16,6 +16,7 @@ import {
 import { TransactionRow } from "../_columns"
 import { useState } from "react"
 import { deleteTransaction } from "@/app/actions/delete-transaction"
+import { toast } from "sonner"
 
 interface DeleteTransactionButtonProps {
   transaction: TransactionRow
@@ -31,9 +32,11 @@ const DeleteTransactionButton = ({
     setIsDeleting(true)
     try {
       await deleteTransaction(transaction.id)
+      toast.success("Transação deletada com sucesso!")
       setDialogIsOpen(false)
     } catch (error) {
       console.error(error)
+      toast.error("Ocorreu um erro ao deletar a transação.")
     } finally {
       setIsDeleting(false)
     }
