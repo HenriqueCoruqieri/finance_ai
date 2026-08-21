@@ -11,12 +11,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/app/_components/ui/dialog"
-import { BotIcon, Loader2Icon } from "lucide-react"
+import { BotIcon } from "lucide-react"
 import { generateAiReport } from "../actions/gerenate-ia-report"
 import { useState } from "react"
 import { ScrollArea } from "@/app/_components/ui/scroll-area"
 import Markdown from "react-markdown"
 import Link from "next/link"
+import { toast } from "sonner"
+import { downloadReportPdf } from "../_lib/download-report-pdf"
+import AiReportDialogFooter from "./ai-report-dialog-footer"
 
 interface AiReportButtonProps {
   hasPremiumPlan: boolean
@@ -24,8 +27,18 @@ interface AiReportButtonProps {
 }
 
 const AiReportButton = ({ month, hasPremiumPlan }: AiReportButtonProps) => {
+  const [dialogIsOpen, setDialogIsOpen] = useState(false)
   const [report, setReport] = useState<string | null>(null)
   const [reportIsLoading, setReportIsLoading] = useState(false)
+  const [reportIsDownloading, setReportIsDownloading] = useState(false)
+
+  const handleDialogOpenChange = (open: boolean) => {
+    setDialogIsOpen(open)
+    if (!open) {
+      setReport(null)
+    }
+  }
+
   const handleGenerateReportClick = async () => {
     try {
       setReportIsLoading(true)
@@ -33,18 +46,30 @@ const AiReportButton = ({ month, hasPremiumPlan }: AiReportButtonProps) => {
       setReport(aiReport)
     } catch (error) {
       console.error(error)
+      toast.error("Ocorreu um erro ao gerar o relatório.")
     } finally {
       setReportIsLoading(false)
     }
   }
+
+  const handleDownloadReportClick = async () => {
+    if (!report) return
+
+    setReportIsDownloading(true)
+    try {
+      await downloadReportPdf(report, month)
+      toast.success("Relatório baixado com sucesso!")
+      handleDialogOpenChange(false)
+    } catch (error) {
+      console.error(error)
+      toast.error("Ocorreu um erro ao baixar o relatório.")
+    } finally {
+      setReportIsDownloading(false)
+    }
+  }
+
   return (
-    <Dialog
-      onOpenChange={(open) => {
-        if (!open) {
-          setReport(null)
-        }
-      }}
-    >
+    <Dialog open={dialogIsOpen} onOpenChange={handleDialogOpenChange}>
       <DialogTrigger
         render={
           <Button variant="ghost" className="rounded-full font-bold">
@@ -52,7 +77,8 @@ const AiReportButton = ({ month, hasPremiumPlan }: AiReportButtonProps) => {
             <BotIcon />
           </Button>
         }
-      ></DialogTrigger>
+      />
+
       <DialogContent className="max-w-150">
         {hasPremiumPlan ? (
           <>
@@ -64,20 +90,19 @@ const AiReportButton = ({ month, hasPremiumPlan }: AiReportButtonProps) => {
               </DialogDescription>
             </DialogHeader>
 
-            <ScrollArea className="prose prose-h3:text-white prose-h4:text-white prose-strong:text-white max-h-112.5 text-white">
-              <Markdown>{report}</Markdown>
-            </ScrollArea>
+            {report && (
+              <ScrollArea className="prose prose-h3:text-white prose-h4:text-white prose-strong:text-white max-h-112.5 text-white">
+                <Markdown>{report}</Markdown>
+              </ScrollArea>
+            )}
 
-            <DialogFooter>
-              <DialogClose render={<Button variant="ghost">Cancelar</Button>} />
-              <Button
-                onClick={handleGenerateReportClick}
-                disabled={reportIsLoading}
-              >
-                {reportIsLoading && <Loader2Icon className="animate-spin" />}
-                Gerar relatório
-              </Button>
-            </DialogFooter>
+            <AiReportDialogFooter
+              hasReport={Boolean(report)}
+              isGenerating={reportIsLoading}
+              isDownloading={reportIsDownloading}
+              onGenerate={handleGenerateReportClick}
+              onDownload={handleDownloadReportClick}
+            />
           </>
         ) : (
           <>
@@ -89,15 +114,11 @@ const AiReportButton = ({ month, hasPremiumPlan }: AiReportButtonProps) => {
               </DialogDescription>
             </DialogHeader>
 
-            <ScrollArea className="prose prose-h3:text-white prose-h4:text-white prose-strong:text-white max-h-112.5 text-white">
-              <Markdown>{report}</Markdown>
-            </ScrollArea>
-
             <DialogFooter>
-              <DialogClose />
+              <DialogClose render={<Button variant="ghost">Cancelar</Button>} />
               <Button
                 render={<Link href="/subscription">Assinar plano premium</Link>}
-              ></Button>
+              />
             </DialogFooter>
           </>
         )}
