@@ -1,6 +1,5 @@
 "use client"
 
-import { Transaction } from "@/app/generated/prisma/browser"
 import { ColumnDef } from "@tanstack/react-table"
 
 import TransactionTypeBadge from "../_components/type-badge"
@@ -11,8 +10,7 @@ import {
 } from "@/app/_constants/transactions"
 import EditTransactionButton from "../_components/edit-transaction-button"
 import DeleteTransactionButton from "../_components/delete-transaction-button"
-
-export type TransactionRow = Omit<Transaction, "amount"> & { amount: number }
+import { TransactionRow } from "../_types"
 
 export const transactionColumns: ColumnDef<TransactionRow>[] = [
   {
@@ -23,6 +21,8 @@ export const transactionColumns: ColumnDef<TransactionRow>[] = [
   {
     accessorKey: "type",
     header: "Tipo",
+    filterFn: "arrIncludesSome",
+    enableGlobalFilter: false,
     cell: ({ row: { original: transaction } }) => (
       <TransactionTypeBadge transaction={transaction} />
     ),
@@ -31,6 +31,8 @@ export const transactionColumns: ColumnDef<TransactionRow>[] = [
   {
     accessorKey: "category",
     header: "Categoria",
+    filterFn: "arrIncludesSome",
+    enableGlobalFilter: false,
     cell: ({ row: { original: transaction } }) =>
       TRANSACTION_CATEGORY_LABELS[transaction.category],
   },
@@ -38,6 +40,8 @@ export const transactionColumns: ColumnDef<TransactionRow>[] = [
   {
     accessorKey: "paymentMethod",
     header: "Método de Pagamento",
+    filterFn: "arrIncludesSome",
+    enableGlobalFilter: false,
     cell: ({ row: { original: transaction } }) =>
       TRANSACTION_PAYMENT_METHOD_LABELS[transaction.paymentMethod],
   },
@@ -45,6 +49,7 @@ export const transactionColumns: ColumnDef<TransactionRow>[] = [
   {
     accessorKey: "date",
     header: "Data",
+    enableGlobalFilter: false,
     cell: ({ row: { original: transaction } }) =>
       new Date(transaction.date).toLocaleDateString("pt-BR", {
         day: "2-digit",
@@ -56,6 +61,7 @@ export const transactionColumns: ColumnDef<TransactionRow>[] = [
   {
     accessorKey: "amount",
     header: "Valor",
+    enableGlobalFilter: false,
     cell: ({ row: { original: transaction } }) =>
       new Intl.NumberFormat("pt-BR", {
         style: "currency",
@@ -66,6 +72,7 @@ export const transactionColumns: ColumnDef<TransactionRow>[] = [
   {
     accessorKey: "actions",
     header: "",
+    enableGlobalFilter: false,
     cell: ({ row: { original: transaction } }) => {
       return (
         <div>

@@ -36,18 +36,24 @@ export const TRANSACTION_PAYMENT_METHOD_LABELS = {
   PIX: "Pix",
 }
 
+export const TRANSACTION_TYPE_LABELS = {
+  [TransactionType.DEPOSIT]: "Depósito",
+  [TransactionType.EXPENSE]: "Despesa",
+  [TransactionType.INVESTMENT]: "Investimento",
+}
+
 export const TRANSACTION_TYPE_OPTIONS = [
   {
     value: TransactionType.EXPENSE,
-    label: "Despesa",
+    label: TRANSACTION_TYPE_LABELS[TransactionType.EXPENSE],
   },
   {
     value: TransactionType.DEPOSIT,
-    label: "Depósito",
+    label: TRANSACTION_TYPE_LABELS[TransactionType.DEPOSIT],
   },
   {
     value: TransactionType.INVESTMENT,
-    label: "Investimento",
+    label: TRANSACTION_TYPE_LABELS[TransactionType.INVESTMENT],
   },
 ]
 

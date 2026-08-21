@@ -7,6 +7,7 @@ import { auth } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
 
 import { canUserAddTransaction } from "../_data/can-user-add-transaction"
+import TransactionsDataTable from "./_components/transactions-data-table"
 
 const TransactionsPage = async () => {
   const { userId } = await auth()
@@ -39,7 +40,7 @@ const TransactionsPage = async () => {
             userCanAddTransaction={userCanAddTransactions}
           />
         </div>
-        <DataTable columns={transactionColumns} data={rows} />
+        <TransactionsDataTable transactions={rows} />
       </div>
     </>
   )

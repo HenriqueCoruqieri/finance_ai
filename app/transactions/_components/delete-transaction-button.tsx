@@ -13,7 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/app/_components/ui/dialog"
-import { TransactionRow } from "../_columns"
+import { TransactionRow } from "../_types"
 import { useState } from "react"
 import { deleteTransaction } from "@/app/actions/delete-transaction"
 import { toast } from "sonner"
